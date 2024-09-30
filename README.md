@@ -4,17 +4,17 @@
 for scripting repeatable commands where you do not want to include the data
 in your history.
 
-## 📦 Installation
+### 📦 Installation
 
 Copy the `slt` binary into your `$PATH` and make sure it is executable.
 
-## 📊 Datastore format
+### 📊 Datastore format
 
 The format for the `slt` datastore is a key/value text file separated by
 either `=` or `:`. See the `datastore_example.txt` for an example file. The
 file format is based on simplified `.ini` format.
 
-## ✨ Usage
+### ✨ Usage
 
 ```
 slt [input.txt] [lookup_key]
@@ -29,7 +29,7 @@ slt datastore_example.txt --debug
 slt username
 ```
 
-## 🌎 Real world examples
+### 🌎 Real world examples
 ```
 ssh $(slt /tmp/info.txt user)@$(slt /tmp/info.txt ip)
 
