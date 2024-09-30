@@ -11,3 +11,12 @@ ip       : 4.2.2.1
 username : jason
 passwd   : sekrit
 animal   = kitten
+
+# If you use a bracketed sub-heading then all keys that follow will be available
+# as "subheading.key". In this example they would be "router.username" and
+# "router.passwd". The originals from above are still available without a prefix
+
+[router]
+
+username: admin
+passwd  : super_sekrit
