@@ -1,8 +1,8 @@
 # 🔍 `slt` aka Scott's Lookup Table
 
-`slt` is a simple script to read data from a key/value text file. It's useful
-for scripting repeatable commands where you do not want to include the data
-in your history.
+`slt` is a simple script to read data from a key/value text file and print it
+out. It's useful for scripting repeatable commands where you do not want to
+include the data in your history.
 
 ### 📦 Installation
 
