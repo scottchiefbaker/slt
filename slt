@@ -24,6 +24,7 @@ my $filter         = $ARGV[1] || "";
 my $is_interactive = (-t STDOUT != 0);
 my $warn_str       = color("red", 'Warning:');
 my $reset          = color("reset");
+my $VERSION        = 'v0.2';
 
 ###############################################################################
 ###############################################################################
@@ -128,7 +129,7 @@ sub color {
 }
 
 sub usage {
-	my $str = color('yellow', "SLT version: v0.1\n\n");
+	my $str = color('yellow', "SLT version: $VERSION\n\n");
 	$str   .= color('white', "Usage: ");
 	$str   .= "$0 input.txt lookup_key\n";
 
