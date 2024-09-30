@@ -11,7 +11,7 @@ Copy the `slt` binary into your `$PATH` and make sure it is executable.
 ### 📊 Datastore format
 
 The format for the `slt` datastore is a key/value text file separated by
-either `=` or `:`. See the `datastore_example.txt` for an example file. The
+either `=` or `:`. See `datastore_example.txt` for an example file. The
 file format is based on simplified `.ini` format and is designed to be
 _human_ readable.
 
