@@ -17,14 +17,15 @@ file format is based on simplified `.ini` format.
 ## Usage
 
 ```
-slt input.txt lookup_key
+slt [input.txt] [lookup_key]
+
 slt /tmp/input.txt username
 slt /tmp/creds.txt db_password
 
 # Verify your datastore is processed correctly
 slt datastore_example.txt --debug
 
-# slt defaults to /tmp/slt.txt no datastore is specified
+# slt defaults to /tmp/slt.txt if no datastore is specified
 slt username
 ```
 
