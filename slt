@@ -67,14 +67,20 @@ sub parse_ini {
 	open (my $INI, "<", $_[0]) or return undef;
 
 	my $ret     = {};
-	my $section = "_";
+	my $section = "";
 
 	while (my $line = readline($INI)) {
 		if ($line =~ /^\[(.+?)\]/) { # Section heading
 			$section = $1;
 		} elsif ($line =~ /^(\w.*?)\s*[:=]\s*"?(.*?)"?\s*$/) { # Key/Value pair
-			#$ret->{$section}->{$1} = $2;
-			$ret->{$1} = $2;
+			my $key   = $1;
+			my $value = $2;
+
+			if ($section) {
+				$ret->{"$section.$key"} = $value;
+			} else {
+				$ret->{$key} = $value;
+			}
 		}
 	}
 
