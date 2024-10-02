@@ -14,6 +14,11 @@ use warnings;
 use v5.16;
 use Getopt::Long;
 
+my $SLT_ENV_VAR     = 'SLT_FILE';
+my $DS_DEFAULT_FILE = "/tmp/slt.txt";
+
+###############################################################################
+
 my $debug = 0;
 GetOptions(
 	'debug' => \$debug,
@@ -32,7 +37,7 @@ my $VERSION        = 'v0.3';
 # If there is only one param we assume /tmp/slt.txt
 if (scalar(@ARGV) == 1 && !-f $ARGV[0]) {
 	$filter = $ARGV[0] || "";
-	$file   = $ENV{"SLT_FILE"} || "/tmp/slt.txt";
+	$file   = $ENV{$SLT_ENV_VAR} || $DS_DEFAULT_FILE;
 }
 
 # Make sure the input file is readable
