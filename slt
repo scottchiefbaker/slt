@@ -49,7 +49,7 @@ if (!$file || !-r $file) {
 my $data = parse_ini($file);
 
 if ($debug) {
-	k($data);
+	output_ds($data);
 	exit(1);
 } elsif ($filter) {
 	my $x = $data->{$filter} || "";
@@ -62,12 +62,45 @@ if ($debug) {
 	}
 } elsif (!$filter) {
 	print "$warn_str No filter specified\n\n";
-	k($data);
+	output_ds($data);
 	exit(1);
 }
 
 ###############################################################################
 ###############################################################################
+
+sub output_ds {
+	my $x = shift();
+
+	my @keys = sort keys %$x;
+
+	# We add 16 because the ANSI coloring is 15 chars
+	my $max  = max_length(@keys) + 16;
+
+	foreach my $key (@keys) {
+		my $value = $x->{$key};
+
+		my $key = color(208, $key);
+		$value  = color('yellow', $value);
+
+		printf("%${max}s => %s\n", $key, $value);
+	}
+
+	return 1;
+}
+
+sub max_length {
+	my $max = 0;
+
+	foreach my $item (@_) {
+		my $len = length($item);
+		if ($len > $max) {
+			$max = $len;
+		}
+	}
+
+	return $max;
+}
 
 sub parse_ini {
 	open (my $INI, "<", $_[0]) or return undef;
