@@ -39,4 +39,8 @@ mysql --user jason --database my_db --password=$(slt /tmp/creds.txt passwd)
 
 # Simplify commands by using leaving off datastore which defaults to /tmp/slt.txt
 ping $(slt ip)
+
+# Use an enviroment variable for the datastore file
+export SLT_FILE=/tmp/myds.txt
+vim $(slt book)
 ```
