@@ -44,6 +44,10 @@ handle_debug();
 
 # Make sure the input file is readable
 if (!$file || !-r $file) {
+	if (!-r $file) {
+		printf("%sError:%s unable to read '%s'\n\n", color('red'), color('reset'), $file);
+	}
+
 	die(usage());
 }
 
