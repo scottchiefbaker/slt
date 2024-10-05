@@ -35,7 +35,7 @@ my $VERSION        = 'v0.3';
 ###############################################################################
 
 # If there is only one param we assume /tmp/slt.txt
-if (scalar(@ARGV) < 2 && !-f ($ARGV[0] || "")) {
+if (scalar(@ARGV) == 1 && !-f ($ARGV[0] || "")) {
 	$filter = $ARGV[0] || "";
 	$file   = $ENV{$SLT_ENV_VAR} || $DS_DEFAULT_FILE;
 }
