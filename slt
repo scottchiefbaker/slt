@@ -40,6 +40,8 @@ if (scalar(@ARGV) == 1 && !-f $ARGV[0]) {
 	$file   = $ENV{$SLT_ENV_VAR} || $DS_DEFAULT_FILE;
 }
 
+handle_debug();
+
 # Make sure the input file is readable
 if (!$file || !-r $file) {
 	die(usage());
@@ -172,6 +174,24 @@ sub usage {
 	$str   .= "$0 input.txt lookup_key\n";
 
 	return $str;
+}
+
+sub handle_debug {
+	# Output the source fo the datasource file
+	if ($debug && $ENV{$SLT_ENV_VAR}) {
+		printf("%sDataSource:%s environment variable\n", color('yellow'), color('reset'));
+	} elsif (scalar(@ARGV) == 2 && $debug) {
+		printf("%sDataSource:%s CLI parameter\n", color('yellow'), color('reset'));
+	} elsif ($debug && $DS_DEFAULT_FILE) {
+		printf("%sDataSource:%s built-in default\n", color('yellow'), color('reset'));
+	}
+
+	# Output the path to the file
+	if ($debug) {
+		printf("%sFile      :%s %s\n\n", color('yellow'), color('reset'), $file);
+	}
+
+	return 1;
 }
 
 # Debug print variable using either Data::Dump::Color (preferred) or Data::Dumper
