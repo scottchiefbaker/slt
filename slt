@@ -30,12 +30,12 @@ my $reset          = color("reset");
 my $VERSION        = 'v0.3';
 
 # Get the data source file and filter
-my ($file, $filter) = get_ds_file_and_filter();
+my ($file, $filter, $ds_source) = get_ds_file_and_filter();
 
 ###############################################################################
 ###############################################################################
 
-handle_debug();
+handle_debug($ds_source);
 
 # Make sure the input file is readable
 if (!$file || !-r $file) {
@@ -176,17 +176,13 @@ sub usage {
 }
 
 sub handle_debug {
-	# Output the source fo the datasource file
-	if ($debug && $ENV{$SLT_ENV_VAR}) {
-		printf("%sDataSource:%s environment variable\n", color('yellow'), color('reset'));
-	} elsif (scalar(@ARGV) == 2 && $debug) {
-		printf("%sDataSource:%s CLI parameter\n", color('yellow'), color('reset'));
-	} elsif ($debug && $DS_DEFAULT_FILE) {
-		printf("%sDataSource:%s built-in default\n", color('yellow'), color('reset'));
-	}
+	my $source = shift();
 
-	# Output the path to the file
 	if ($debug) {
+		# Output the source fo the datasource file
+		printf("%sDataSource:%s %s\n", color('yellow'), color('reset'), $source);
+
+		# Output the path to the file
 		printf("%sFile      :%s %s\n\n", color('yellow'), color('reset'), $file);
 	}
 
@@ -195,16 +191,27 @@ sub handle_debug {
 
 # Extract the data store file and filter from appropriate places: ARGV/ENV/Default
 sub get_ds_file_and_filter {
-	my $file           = $ARGV[0] || "";
-	my $filter         = $ARGV[1] || "";
+	my $file   = $ARGV[0] || "";
+	my $filter = $ARGV[1] || "";
+	my $source = '';
 
 	# If there is only one param we find the DS from the env/default
 	if (scalar(@ARGV) == 1 && !-f ($ARGV[0] || "")) {
 		$filter = $ARGV[0] || "";
 		$file   = $ENV{$SLT_ENV_VAR} || $DS_DEFAULT_FILE;
+
+		if ($ENV{$SLT_ENV_VAR}) {
+			$file   = $ENV{$SLT_ENV_VAR};
+			$source = "environment variable";
+		} elsif ($DS_DEFAULT_FILE) {
+			$file   = $DS_DEFAULT_FILE;
+			$source = "built-in default";
+		}
+	} else {
+		$source = "CLI parameter";
 	}
 
-	my @ret = ($file, $filter);
+	my @ret = ($file, $filter, $source);
 
 	return @ret;
 }
