@@ -24,21 +24,16 @@ GetOptions(
 	'debug' => \$debug,
 );
 
-my $file           = $ARGV[0] || "";
-my $filter         = $ARGV[1] || "";
 my $is_interactive = (-t STDOUT != 0);
 my $warn_str       = color("red", 'Warning:');
 my $reset          = color("reset");
 my $VERSION        = 'v0.3';
 
-###############################################################################
-###############################################################################
+# Get the data source file and filter
+my ($file, $filter) = get_ds_file_and_filter();
 
-# If there is only one param we assume /tmp/slt.txt
-if (scalar(@ARGV) == 1 && !-f ($ARGV[0] || "")) {
-	$filter = $ARGV[0] || "";
-	$file   = $ENV{$SLT_ENV_VAR} || $DS_DEFAULT_FILE;
-}
+###############################################################################
+###############################################################################
 
 handle_debug();
 
@@ -196,6 +191,22 @@ sub handle_debug {
 	}
 
 	return 1;
+}
+
+# Extract the data store file and filter from appropriate places: ARGV/ENV/Default
+sub get_ds_file_and_filter {
+	my $file           = $ARGV[0] || "";
+	my $filter         = $ARGV[1] || "";
+
+	# If there is only one param we find the DS from the env/default
+	if (scalar(@ARGV) == 1 && !-f ($ARGV[0] || "")) {
+		$filter = $ARGV[0] || "";
+		$file   = $ENV{$SLT_ENV_VAR} || $DS_DEFAULT_FILE;
+	}
+
+	my @ret = ($file, $filter);
+
+	return @ret;
 }
 
 # Debug print variable using either Data::Dump::Color (preferred) or Data::Dumper
