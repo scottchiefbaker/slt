@@ -40,10 +40,10 @@ handle_debug($ds_source);
 # Make sure the input file is readable
 if (!$file || !-r $file) {
 	if ($file && !-r $file) {
-		printf("%sError:%s unable to read '%s'\n\n", color('red'), color('reset'), $file);
+		printf STDERR ("%sError:%s unable to read '%s'\n", color('red'), color('reset'), $file);
 	}
 
-	die(usage());
+	exit(11);
 }
 
 # Read the input data source into a hash
@@ -62,7 +62,7 @@ if ($debug) {
 		exit(9);
 	}
 } elsif (!$filter) {
-	print "$warn_str No filter specified\n\n";
+	print STDERR "$warn_str No filter specified\n\n";
 	output_ds($data);
 	exit(1);
 }
