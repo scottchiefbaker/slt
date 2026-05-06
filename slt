@@ -216,21 +216,15 @@ sub get_ds_file_and_filter {
 	return @ret;
 }
 
-# Debug print variable using either Data::Dump::Color (preferred) or Data::Dumper
+# Debug print variable using either Dump::Krumo (preferred) or Data::Dumper
 # Creates methods k() and kd() to print, and print & die respectively
 BEGIN {
-	if (eval { require Data::Dump::Color }) {
-		*k = sub { Data::Dump::Color::dd(@_) };
+	if (eval { require Dump::Krumo }) {
+		Dump::Krumo->import(qw/k kd/);
 	} else {
 		require Data::Dumper;
-		*k = sub { print Data::Dumper::Dumper(\@_) };
-	}
-
-	sub kd {
-		k(@_);
-
-		printf("Died at %2\$s line #%3\$s\n",caller());
-		exit(15);
+		*k  = sub { print Data::Dumper::Dumper(\@_) };
+		*kd = sub { print Data::Dumper::Dumper(\@_); die; };
 	}
 }
 
