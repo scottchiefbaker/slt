@@ -37,7 +37,7 @@ my ($file, $filter, $ds_source) = get_ds_file_and_filter();
 
 handle_debug($ds_source);
 
-if (!@ARGV) {
+if (!@ARGV && !$debug) {
 	die(usage());
 }
 
@@ -211,6 +211,9 @@ sub get_ds_file_and_filter {
 			$file   = $DS_DEFAULT_FILE;
 			$source = "built-in default";
 		}
+	} elsif (scalar(@ARGV) == 0) {
+		$file = $DS_DEFAULT_FILE;
+		$source = "built-in default";
 	} else {
 		$source = "CLI parameter";
 	}
