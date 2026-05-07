@@ -15,7 +15,7 @@ use v5.16;
 use Getopt::Long;
 
 my $SLT_ENV_VAR     = 'SLT_FILE';
-my $DS_DEFAULT_FILE = "/tmp/slt.txt";
+my $DS_DEFAULT_FILE = $ENV{HOME} . "/.slt.txt";
 
 ###############################################################################
 
@@ -27,7 +27,7 @@ GetOptions(
 my $is_interactive = (-t STDOUT != 0);
 my $warn_str       = color("red", 'Warning:');
 my $reset          = color("reset");
-my $VERSION        = 'v0.3';
+my $VERSION        = 'v0.3.2';
 
 # Get the data source file and filter
 my ($file, $filter, $ds_source) = get_ds_file_and_filter();
@@ -170,9 +170,11 @@ sub color {
 }
 
 sub usage {
-	my $str = color('yellow', "SLT version: $VERSION\n\n");
-	$str   .= color('white', "Usage: ");
-	$str   .= "$0 input.txt lookup_key\n";
+	my $str = color('228', "SLT version: $VERSION\n\n");
+	$str   .= color('159', "Usage: ");
+	$str   .= "$0 [input.txt] lookup_key\n";
+	$str   .= "\n";
+	$str   .= "Info: If input is not specified " . color('193', "~/.slt.txt") . " is used\n";
 
 	return $str;
 }
