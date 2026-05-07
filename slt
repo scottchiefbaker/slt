@@ -19,9 +19,11 @@ my $DS_DEFAULT_FILE = $ENV{HOME} . "/.slt.txt";
 
 ###############################################################################
 
-my $debug = 0;
+my $debug    = 0;
+my $insecure = 0;
 GetOptions(
-	'debug' => \$debug,
+	'debug'      => \$debug,
+	'insecure|k' => \$insecure,
 );
 
 my $is_interactive = (-t STDOUT != 0);
@@ -49,6 +51,7 @@ if ($file && !-r $file) {
 }
 
 # Read the input data source into a hash
+check_permissions($file);
 my $data = parse_ini($file);
 
 if ($debug) {
@@ -221,6 +224,34 @@ sub get_ds_file_and_filter {
 	my @ret = ($file, $filter, $source);
 
 	return @ret;
+}
+
+sub check_permissions {
+	my $file = shift();
+	my $ok   = 1;
+
+	# If we've bypassed permission checks we bail out here
+	if ($insecure) {
+		return 1;
+	}
+
+	my $mode           = (stat($file))[2];
+	my $group_readable = $mode & 040;
+	my $world_readable = $mode & 004;
+
+	if ($group_readable) {
+		printf STDERR ("%s '%s' is group readable. Run `chmod g-r` to fix this.\n", color('red', 'Critical:'), color('white', $file));
+		exit(21);
+
+		$ok = 0;
+	} elsif ($world_readable) {
+		printf STDERR ("%s '%s' is world readable. Run `chmod o-r` to fix this.\n", color('red', 'Critical:'), color('white', $file));
+		exit(22);
+
+		$ok = 0;
+	}
+
+	return $ok;
 }
 
 # Debug print variable using either Dump::Krumo (preferred) or Data::Dumper
