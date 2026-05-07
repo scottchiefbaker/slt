@@ -1,20 +1,21 @@
-# Anything that is seprated by a `:` or `=` will be split into key value
-# pairs that `slt` can fetch
+# Lines that contain a `:` or `=` will be split into key value pairs that
+# `slt` can reference.
 
 key: value
 foo = bar
 
-# whitespace does not matter and will be trimmed off for both key and value
-# delimiters can be mixed and matched as needed for readability
+# Whitespace will be trimmed off for both keys and values. Delimeters and can
+# be mixed and matched as needed for readability.
 
 ip       : 4.2.2.1
 username : jason
 passwd   : sekrit
 animal   = kitten
 
-# If you use a bracketed sub-heading then all keys that follow will be available
+# If you use a bracketed sub-heading, all keys that follow will be available
 # as "subheading.key". In this example they would be "router.username" and
-# "router.passwd". The originals from above are still available without a prefix
+# "router.passwd". The originals from above are still available without a
+# prefix.
 
 [router]
 
